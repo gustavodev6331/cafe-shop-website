@@ -36,9 +36,8 @@ class Cafe(db.Model):
 def home():
     result = db.session.execute(db.select(Cafe).order_by(Cafe.name))
     all_cafes = result.scalars().all()
-    for cafe in all_cafes:
-        print(cafe.name, cafe.location)
-    return "Cafes loaded successfully!"
+
+    return render_template("index.html", all_cafes=all_cafes)
 
 
 if __name__ == "__main__":
