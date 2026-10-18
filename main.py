@@ -39,7 +39,7 @@ class Cafe(db.Model):
     can_take_calls: Mapped[bool] = mapped_column(Boolean, nullable=False)
     coffee_price: Mapped[str] = mapped_column(String(250), nullable=True)
 
-class CafeSuggestion(FlaskForm):
+class CafeSuggestion(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(250), nullable=False)
     map_url: Mapped[str] = mapped_column(String(500), nullable=False)
@@ -51,7 +51,7 @@ class CafeSuggestion(FlaskForm):
     has_sockets: Mapped[bool] = mapped_column(Boolean, nullable=False)
     can_take_calls: Mapped[bool] = mapped_column(Boolean, nullable=False)
     coffee_price: Mapped[str] = mapped_column(String(250), nullable=True)
-    status: Mapped[str] = mapped_column(String(250), nullable=False, default="pending")
+    status: Mapped[str] = mapped_column(String(25), nullable=False, default="pending")
 
 with app.app_context():
     db.create_all()
