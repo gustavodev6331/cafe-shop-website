@@ -17,6 +17,7 @@
         border-radius: 12px;
         overflow: hidden;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background-color: #ffffff;
     }
 
     .card:hover {
@@ -27,6 +28,17 @@
     .card-body {
         padding: 1.25rem;
     }
+
+    body {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        min-height: 2.6rem;
+    }
     </style>
 </head>
 <body>
@@ -36,7 +48,7 @@
     </div>
 
     <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center">
             {% for cafe in all_cafes %}
             <div class="col mb-4">
                 <div class="card shadow-sm h-100">
@@ -56,11 +68,11 @@
                             View on map
                         </a>
 
-                        <ul class="list-unstyled">
-                            <li>
+                        <ul class="list-group list-group-flush mt-3">
+                            <li class="list-group-item">
                                 <strong>Seats:</strong> {{ cafe.seats }}
                             </li>
-                            <li>
+                            <li class="list-group-item">
                                 <strong>Open toilet:</strong>
                                     {% if cafe.has_toilet %}
                                     Yes
@@ -68,7 +80,7 @@
                                     No
                                     {% endif %}
                             </li>
-                            <li>
+                            <li class="list-group-item">
                                 <strong>Wi-Fi:</strong>
                                     {% if cafe.has_wifi %}
                                     Yes
@@ -76,7 +88,7 @@
                                     No
                                     {% endif %}
                             </li>
-                            <li>
+                            <li class="list-group-item">
                                 <strong>Has sockets:</strong>
                                     {% if cafe.has_sockets %}
                                     Yes
@@ -84,7 +96,7 @@
                                     No
                                     {% endif %}
                             </li>
-                            <li>
+                            <li class="list-group-item">
                                 <strong>Can you take calls?</strong>
                                     {% if cafe.can_take_calls %}
                                     Yes
@@ -92,7 +104,7 @@
                                     No
                                     {% endif %}
                             </li>
-                            <li><strong>Coffee price:</strong> {{ cafe.coffee_price }}</li>
+                            <li class="list-group-item"><strong>Coffee price:</strong> {{ cafe.coffee_price }}</li>
                         </ul>
 
                     </div>
