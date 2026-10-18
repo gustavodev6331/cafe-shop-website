@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Boolean
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 from dotenv import load_dotenv
 import os
@@ -44,11 +44,30 @@ class AddSuggestion(FlaskForm):
     img_url = StringField("Coffee picture", validators=[DataRequired()])
     location = StringField("Coffee location", validators=[DataRequired()])
     seats = StringField("Coffee seats", validators=[DataRequired()])
-    has_toilet = StringField("Has seats", validators=[DataRequired()])
-    has_wifi = StringField("Has wifi", validators=[DataRequired()])
-    has_sockets = StringField("Has sockets", validators=[DataRequired()])
-    can_take_calls = StringField("Can take calls", validators=[DataRequired()])
-    coffee_price = StringField("Coffee price", validators=[DataRequired()])
+    has_toilet = SelectField(
+        "Has a customer toilet?",
+        choices=[("True", "Yes"), ("False", "No")],
+        validators=[DataRequired()]
+    )
+
+    has_wifi = SelectField(
+        "Has Wi-Fi?",
+        choices=[("True", "Yes"), ("False", "No")],
+        validators=[DataRequired()]
+    )
+
+    has_sockets = SelectField(
+        "Has power outlets?",
+        choices=[("True", "Yes"), ("False", "No")],
+        validators=[DataRequired()]
+    )
+
+    can_take_calls = SelectField(
+        "Can customers take calls?",
+        choices=[("True", "Yes"), ("False", "No")],
+        validators=[DataRequired()]
+    )
+    coffee_price = StringField("Coffee price (Optional)")
     submit = SubmitField("Add suggestion to be reviewd from website owner")
 
 
