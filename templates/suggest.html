@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block title %}Add suggestion{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1 class="heading">Add a coffee suggestion</h1>
+    {{ render_form(form, novalidate=True) }}
+</div>
+{% endblock %}
