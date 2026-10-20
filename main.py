@@ -1,3 +1,4 @@
+from sqlalchemy import Integer, String, Boolean, inspect
 from flask import Flask, render_template, request, url_for, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -56,6 +57,11 @@ class CafeSuggestion(db.Model):
 with app.app_context():
     db.create_all()
 
+    inspector = inspect(db.engine)
+
+    print("Database file:", db.engine.url.database)
+    print("Physical tables:", inspector.get_table_names())
+
 
 
 class AddSuggestion(FlaskForm):
@@ -103,10 +109,25 @@ def home():
 def suggestions():
     form = AddSuggestion()
     if form.validate_on_submit():
+        new_cafe = CafeSuggestion(
+        name = form.name.data,
+        map_url = form.map_url.data,
+        img_url = form.img_url.data,
+        location = form.location.data,
+        seats = form.seats.data,
+        has_toilet = True if form.has_toilet.data == "True" else False,
+        has_wifi = True if form.has_wifi.data == "True" else False,
+        has_sockets = True if form.has_sockets.data == "True" else False,
+        can_take_calls = True if form.can_take_calls.data == "True" else False,
+        coffee_price = form.coffee_price.data or None,
+        )
+
+        db.session.add(new_cafe)
+        db.session.commit()
+
         flash("Your suggestion was submitted for review!")
         return redirect(url_for('home'))
     return render_template("suggest.html", form=form)
-
 
 if __name__ == "__main__":
     app.run(debug=True)
