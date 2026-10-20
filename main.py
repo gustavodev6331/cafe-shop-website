@@ -1,11 +1,11 @@
 from sqlalchemy import Integer, String, Boolean, inspect
 from flask import Flask, render_template, request, url_for, redirect, flash
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required,
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Boolean
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, PasswordField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap5
 from dotenv import load_dotenv
@@ -113,7 +113,7 @@ class AddSuggestion(FlaskForm):
 
 class AdminLoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
-    password = StringField("Password", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Log In")
 
 @app.route('/')
