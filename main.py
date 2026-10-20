@@ -1,5 +1,6 @@
 from sqlalchemy import Integer, String, Boolean, inspect
 from flask import Flask, render_template, request, url_for, redirect, flash
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Boolean
@@ -23,6 +24,20 @@ db.init_app(app)
 
 app.config["SECRET_KEY"] = os.environ["SECRET_KEY"]
 bootstrap = Bootstrap5(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "admin_login"
+
+class Admin(UserMixin):
+    id = "admin"
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    if user_id == "admin":
+        return Admin()
+    return None
 
 with app.app_context():
     print(db.engine.url)
@@ -96,7 +111,10 @@ class AddSuggestion(FlaskForm):
     coffee_price = StringField("Coffee price (Optional)")
     submit = SubmitField("Add suggestion to be reviewd from website owner")
 
-
+class AdminLoginForm(FlaskForm):
+    username = StringField("Username", validators=[DataRequired()])
+    password = StringField("Password", validators=[DataRequired()])
+    submit = SubmitField("Log In")
 
 @app.route('/')
 def home():
@@ -128,6 +146,23 @@ def suggestions():
         flash("Your suggestion was submitted for review!")
         return redirect(url_for('home'))
     return render_template("suggest.html", form=form)
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    form = AdminLoginForm()
+
+    if form.validate_on_submit():
+        username = os.environ.get("ADMIN_USERNAME")
+        password = os.environ.get("ADMIN_PASSWORD")
+
+        if form.username.data == username and form.password.data == password:
+            admin = Admin()
+            login_user(admin)
+            return redirect(url_for("admin_dashboard"))
+
+        flash("Invalid username or password.")
+
+    return render_template("login.html", form=form)
 
 if __name__ == "__main__":
     app.run(debug=True)
