@@ -1,10 +1,11 @@
 from sqlalchemy import Integer, String, Boolean, inspect
-from flask import Flask, render_template, request, url_for, redirect, flash
+from flask import Flask, render_template, request, url_for, redirect, flash, abort
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Boolean
 from flask_wtf import FlaskForm
+
 from wtforms import StringField, SubmitField, SelectField, PasswordField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap5
@@ -158,7 +159,7 @@ def admin_login():
         if form.username.data == username and form.password.data == password:
             admin = Admin()
             login_user(admin)
-            return redirect(url_for("admin_login"))
+            return redirect(url_for("admin_dashboard"))
 
         flash("Invalid username or password.")
 
