@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Boolean
 from flask_wtf import FlaskForm
-
+from flask_wtf.csrf import CSRFProtect
 from wtforms import StringField, SubmitField, SelectField, PasswordField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap5
@@ -24,6 +24,7 @@ db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
 app.config["SECRET_KEY"] = os.environ["SECRET_KEY"]
+csrf = CSRFProtect(app)
 bootstrap = Bootstrap5(app)
 
 login_manager = LoginManager()
@@ -177,6 +178,34 @@ def admin_dashboard():
         "admin.html",
         suggestions=pending_suggestions
     )
+
+@app.route("/admin/approve/<int:suggestion_id>", methods=["POST"])
+@login_required
+def approve_suggestion(suggestion_id):
+    suggestion = db.get_or_404(CafeSuggestion, suggestion_id)
+
+    if suggestion.status != "pending":
+        abort(400)
+
+    new_cafe = Cafe(
+        name=suggestion.name,
+        map_url=suggestion.map_url,
+        img_url=suggestion.img_url,
+        location=suggestion.location,
+        seats=suggestion.seats,
+        has_toilet=suggestion.has_toilet,
+        has_wifi=suggestion.has_wifi,
+        has_sockets=suggestion.has_sockets,
+        can_take_calls=suggestion.can_take_calls,
+        coffee_price=suggestion.coffee_price,
+    )
+
+    db.session.add(new_cafe)
+    suggestion.status = "approved"
+    db.session.commit()
+
+    flash(f"{suggestion.name} was approved successfully!")
+    return redirect(url_for("admin_dashboard"))
 
 if __name__ == "__main__":
     app.run(debug=True)
