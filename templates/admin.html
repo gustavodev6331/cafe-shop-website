@@ -28,6 +28,13 @@
                            class="btn btn-outline-primary">
                             View on map
                         </a>
+                        <form action="{{ url_for('approve_suggestion', suggestion_id=cafe.id) }}"
+                            method="POST" class="mt-3">
+                          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                          <button type="submit" class="btn btn-success">
+                            Approve
+                          </button>
+                        </form>
                     </div>
                 </div>
             {% endfor %}
