@@ -1,10 +1,47 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    {{ bootstrap.load_css() }}
 </head>
 <body>
-$END$
+    <div class="container mt-5">
+        <h1 class="mb-4">Pending Cafe Suggestions</h1>
+
+        {% if suggestions %}
+            {% for cafe in suggestions %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ cafe.name }}</h5>
+
+                        <p class="card-text">
+                            <strong>Location:</strong> {{ cafe.location }}<br>
+                            <strong>Seats:</strong> {{ cafe.seats }}<br>
+                            <strong>Wi-Fi:</strong> {{ "Yes" if cafe.has_wifi else "No" }}<br>
+                            <strong>Power outlets:</strong> {{ "Yes" if cafe.has_sockets else "No" }}<br>
+                            <strong>Coffee price:</strong> {{ cafe.coffee_price or "Not provided" }}
+                        </p>
+
+                        <a href="{{ cafe.map_url }}" target="_blank" rel="noopener noreferrer"
+                           class="btn btn-outline-primary">
+                            View on map
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No pending suggestions.</p>
+        {% endif %}
+
+        <a href="{{ url_for('home') }}" class="btn btn-outline-secondary mt-3">
+            Back to cafes
+        </a>
+    </div>
+
+    {{ bootstrap.load_js() }}
 </body>
 </html>
+```
