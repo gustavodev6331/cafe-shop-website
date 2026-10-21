@@ -1,6 +1,6 @@
 from sqlalchemy import Integer, String, Boolean, inspect
 from flask import Flask, render_template, request, url_for, redirect, flash
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required,
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Boolean
@@ -158,11 +158,24 @@ def admin_login():
         if form.username.data == username and form.password.data == password:
             admin = Admin()
             login_user(admin)
-            return redirect(url_for("admin_dashboard"))
+            return redirect(url_for("admin_login"))
 
         flash("Invalid username or password.")
 
     return render_template("login.html", form=form)
+
+@app.route("/admin")
+@login_required
+def admin_dashboard():
+    result = db.session.execute(
+        db.select(CafeSuggestion).where(CafeSuggestion.status == "pending")
+    )
+    pending_suggestions = result.scalars().all()
+
+    return render_template(
+        "admin.html",
+        suggestions=pending_suggestions
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
