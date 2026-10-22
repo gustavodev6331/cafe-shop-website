@@ -207,5 +207,19 @@ def approve_suggestion(suggestion_id):
     flash(f"{suggestion.name} was approved successfully!")
     return redirect(url_for("admin_dashboard"))
 
+@app.route("/admin/reject/<int:suggestion_id>", methods=["POST"])
+@login_required
+def reject_suggestion(suggestion_id):
+    suggestion = db.get_or_404(CafeSuggestion, suggestion_id)
+
+    if suggestion.status != "pending":
+        abort(400)
+
+    suggestion.status = "rejected"
+    db.session.commit()
+
+    flash(f"{suggestion.name} was rejected.")
+    return redirect(url_for("admin_dashboard"))
+
 if __name__ == "__main__":
     app.run(debug=True)
