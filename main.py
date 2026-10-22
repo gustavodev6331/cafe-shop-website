@@ -221,5 +221,13 @@ def reject_suggestion(suggestion_id):
     flash(f"{suggestion.name} was rejected.")
     return redirect(url_for("admin_dashboard"))
 
+
+@app.route("/admin/logout", methods=["POST"])
+@login_required
+def admin_logout():
+    logout_user()
+    flash("You have been logged out.")
+    return redirect(url_for("home"))
+
 if __name__ == "__main__":
     app.run(debug=True)
