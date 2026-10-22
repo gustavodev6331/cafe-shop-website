@@ -1,5 +1,5 @@
-from sqlalchemy import Integer, String, Boolean, inspect
-from flask import Flask, render_template, request, url_for, redirect, flash, abort
+from sqlalchemy import  inspect
+from flask import Flask, render_template, url_for, redirect, flash, abort
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -41,8 +41,6 @@ def load_user(user_id):
         return Admin()
     return None
 
-with app.app_context():
-    print(db.engine.url)
 
 class Cafe(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -73,12 +71,6 @@ class CafeSuggestion(db.Model):
 
 with app.app_context():
     db.create_all()
-
-    inspector = inspect(db.engine)
-
-    print("Database file:", db.engine.url.database)
-    print("Physical tables:", inspector.get_table_names())
-
 
 
 class AddSuggestion(FlaskForm):
@@ -111,7 +103,7 @@ class AddSuggestion(FlaskForm):
         validators=[DataRequired()]
     )
     coffee_price = StringField("Coffee price (Optional)")
-    submit = SubmitField("Add suggestion to be reviewd from website owner")
+    submit = SubmitField("Add suggestion to be reviewed from website owner")
 
 class AdminLoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
