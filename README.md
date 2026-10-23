@@ -1,4 +1,6 @@
-# Cafe Website
+# Cafe Shop Website
+
+**[🌐 Live Demo](https://cafe-shop-website.onrender.com)**
 
 A Flask web application for discovering cafes with useful amenities and submitting new cafe suggestions for review. Includes an admin dashboard to approve or reject submissions before they appear on the website.
 
@@ -101,5 +103,6 @@ project/
 ├── .gitignore
 └── requirements.txt
 ```
+
 
 The exact files and folders may vary depending on the final project structure.
