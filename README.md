@@ -2,6 +2,13 @@
 
 A Flask web application for discovering cafes with useful amenities and submitting new cafe suggestions for review. Includes an admin dashboard to approve or reject submissions before they appear on the website.
 
+<img width="1458" height="832" alt="Screenshot 2026-10-22 at 7 02 46 PM" src="https://github.com/user-attachments/assets/5f3f6e4c-a4cd-484e-a69c-dfb675c3f99e" />
+
+<img width="1466" height="828" alt="Screenshot 2026-10-22 at 9 29 07 PM" src="https://github.com/user-attachments/assets/1c51e37e-9c6b-45be-b667-a5e9c94ae436" />
+
+<img width="1470" height="830" alt="Screenshot 2026-10-22 at 9 31 07 PM" src="https://github.com/user-attachments/assets/13db0ac9-6360-4cf8-9bfb-1a597a81b909" />
+
+
 ## Features
 
 - Browse cafes and view their details, including location, seating, Wi-Fi, power outlets, restrooms, call-friendly spaces, and coffee prices.
