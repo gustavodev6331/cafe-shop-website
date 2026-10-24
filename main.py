@@ -154,7 +154,7 @@ def admin_login():
             login_user(admin)
             return redirect(url_for("admin_dashboard"))
 
-        flash("Invalid username or password.")
+        flash("Invalid username or password. Please try again.")
 
     return render_template("login.html", form=form)
 
